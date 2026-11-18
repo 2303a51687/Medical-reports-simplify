@@ -1,3 +1,3 @@
-# MEDICAL REPORTS SIMPLIFY
+# Medical Reports Simplification
 
 
