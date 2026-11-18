@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Medical Reports Simplification Dataset</title>
+<style>
+:root{--bg:#faf8f4;--surface:#fff;--ink:#1d2a2a;--muted:#5c6b6b;--line:#e3ded4;--accent:#0f766e;--accent-soft:#d9efec;--warn:#fff4dc;--warn-line:#e8c777;--code:#14201f;--code-ink:#d6efe9;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101716;--surface:#172221;--ink:#e6efed;--muted:#9bb0ad;--line:#2a3a38;--accent:#4fd1c0;--accent-soft:#17403c;--warn:#2b2412;--warn-line:#6b5420;--code:#0a1110;--code-ink:#c9ebe4;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#101716;--surface:#172221;--ink:#e6efed;--muted:#9bb0ad;--line:#2a3a38;--accent:#4fd1c0;--accent-soft:#17403c;--warn:#2b2412;--warn-line:#6b5420;--code:#0a1110;--code-ink:#c9ebe4;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,"Times New Roman",serif}
+.w{max-width:960px;margin:0 auto;padding:0 20px}
+h1,h2,h3,nav,.k,.tag,button,code,pre,th{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);z-index:5}
+nav .w{display:flex;gap:20px;overflow-x:auto;padding-top:12px;padding-bottom:12px;font-size:14px;white-space:nowrap}
+nav a{color:var(--muted);text-decoration:none}nav a:hover{color:var(--accent)}
+nav b{color:var(--ink);margin-right:auto}
+header{padding:64px 0 40px}
+.tag{display:inline-block;background:var(--accent-soft);color:var(--accent);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:99px}
+h1{font-size:clamp(2rem,5.5vw,3.4rem);line-height:1.1;margin:16px 0;letter-spacing:-.02em}
+.lead{font-size:1.2rem;color:var(--muted);max-width:640px}
+.btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.btn{font:600 14px system-ui,sans-serif;padding:11px 18px;border-radius:8px;text-decoration:none;border:1px solid var(--accent);background:var(--accent);color:#fff}
+.btn.o{background:transparent;color:var(--accent)}
+:root:not([data-theme="light"]) .btn:not(.o){color:#06201c}
+section{padding:40px 0;border-top:1px solid var(--line)}
+h2{font-size:1.6rem;margin:0 0 8px;letter-spacing:-.01em}
+.sub{color:var(--muted);margin:0 0 24px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px}
+.stat .n{font:700 1.9rem/1.1 system-ui,sans-serif;color:var(--accent)}
+.stat .l{font:13px system-ui,sans-serif;color:var(--muted);margin-top:4px}
+.bars{display:grid;gap:8px}
+.bar{display:grid;grid-template-columns:minmax(120px,210px) 1fr 52px;gap:10px;align-items:center;font:14px system-ui,sans-serif}
+.bar i{display:block;height:14px;border-radius:4px;background:var(--accent)}
+.bar span:last-child{text-align:right;color:var(--muted)}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+td code{background:var(--accent-soft);color:var(--accent);padding:1px 6px;border-radius:4px;font-size:13px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+.card h3{margin:0 0 6px;font-size:1rem}.card p{margin:0;color:var(--muted);font-size:.95rem}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+button{font-size:13px;padding:7px 13px;border-radius:99px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+:root:not([data-theme="light"]) button[aria-selected="true"]{color:#06201c}
+.cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.pane{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px}
+.pane h3{margin:0 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.pane p{margin:0;font:13.5px/1.6 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-word}
+pre{background:var(--code);color:var(--code-ink);padding:16px;border-radius:12px;overflow-x:auto;font-size:13px;line-height:1.55;margin:0}
+.warn{background:var(--warn);border:1px solid var(--warn-line);border-radius:12px;padding:16px 18px}
+.warn ul{margin:8px 0 0;padding-left:20px}.warn li{margin:6px 0}
+footer{padding:32px 0 48px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+@media(max-width:560px){.bar{grid-template-columns:110px 1fr 44px;font-size:13px}}
+</style>
+</head>
+<body>
+<nav><div class="w"><b>MRSD</b><a href="#overview">Overview</a><a href="#specialties">Specialties</a><a href="#schema">Schema</a><a href="#samples">Samples</a><a href="#usage">Usage</a><a href="#notes">Notes</a></div></nav>
+
+<header><div class="w">
+<span class="tag">Dataset · NLP · Healthcare</span>
+<h1>Medical Reports Simplification Dataset</h1>
+<p class="lead">3,801 clinical reports across 39 specialties, packaged for training language models to rewrite dense medical documentation in clear, patient-friendly language.</p>
+<div class="btns"><a class="btn" href="#usage">Get started</a><a class="btn o" href="#samples">Browse samples</a></div>
+</div></header>
+
+<section id="overview"><div class="w">
+<h2>Overview</h2>
+<p class="sub">Clinical notes are written for clinicians. This dataset pairs full report text with extracted findings and a baseline summary, so you can fine-tune or evaluate models that explain reports to patients.</p>
+<div class="stats">
+<div class="stat"><div class="n">3,801</div><div class="l">records</div></div>
+<div class="stat"><div class="n">39</div><div class="l">medical specialties</div></div>
+<div class="stat"><div class="n">1,817</div><div class="l">unique report texts</div></div>
+<div class="stat"><div class="n">~406</div><div class="l">avg. words per report</div></div>
+<div class="stat"><div class="n">2</div><div class="l">formats: CSV + JSONL</div></div>
+</div>
+<div class="grid2" style="margin-top:20px">
+<div class="card"><h3>Medical_Reports_Simplification_Dataset.csv</h3><p>Structured table with 9 columns, including report text, extracted findings, keywords and a prompt.</p></div>
+<div class="card"><h3>medical_reports_simplification.jsonl</h3><p>Instruction-tuning format (<code>instruction</code>, <code>input</code>, <code>output</code>, <code>metadata</code>) for TRL, SFTTrainer, Unsloth and Axolotl.</p></div>
+</div>
+</div></section>
+
+<section id="specialties"><div class="w">
+<h2>Specialty coverage</h2>
+<p class="sub">Record counts for the 12 largest specialties. Surgery alone makes up about a quarter of the data.</p>
+<div class="bars" id="bars"></div>
+</div></section>
+
+<section id="schema"><div class="w">
+<h2>CSV schema</h2>
+<p class="sub">Nine columns per record.</p>
+<div class="tw"><table>
+<tr><th>Column</th><th>Description</th></tr>
+<tr><td><code>Serial No</code></td><td>Unique row index</td></tr>
+<tr><td><code>medical_specialty</code></td><td>Clinical domain, e.g. Cardiovascular / Pulmonary, Radiology</td></tr>
+<tr><td><code>sample_name</code></td><td>Report title, procedure or condition</td></tr>
+<tr><td><code>description</code></td><td>Brief overview of the case (about 18 words on average)</td></tr>
+<tr><td><code>complex_medical_report</code></td><td>Full clinical transcription (median about 343 words)</td></tr>
+<tr><td><code>extracted_clinical_findings</code></td><td>Regex-extracted Assessment, Impression, Plan or Diagnosis sections (present in 2,653 rows)</td></tr>
+<tr><td><code>keywords</code></td><td>Medical keywords and clinical tags</td></tr>
+<tr><td><code>instruction_prompt</code></td><td>Standardized instruction prompt for LLM fine-tuning</td></tr>
+<tr><td><code>plain_language_summary_seed</code></td><td>Baseline summary built from the overview and key findings</td></tr>
+</table></div>
+</div></section>
+
+<section id="samples"><div class="w">
+<h2>Sample records</h2>
+<p class="sub">Each example shows the original report and the dataset’s baseline summary seed, unedited.</p>
+<div class="tabs" id="tabs" role="tablist"></div>
+<div class="cmp">
+<div class="pane"><h3>Input · complex report</h3><p id="in"></p></div>
+<div class="pane"><h3>Output · summary seed</h3><p id="out"></p></div>
+</div>
+</div></section>
+
+<section id="usage"><div class="w">
+<h2>Quick start</h2>
+<p class="sub">Unzip the archive, then load whichever format fits your pipeline.</p>
+<pre>import pandas as pd
+from datasets import load_dataset
+
+# Structured CSV
+df = pd.read_csv("Medical_Reports_Simplification_Dataset.csv")
+print(df.medical_specialty.value_counts().head())
+
+# Instruction-tuning JSONL
+ds = load_dataset("json", data_files="medical_reports_simplification.jsonl")["train"]
+print(ds[0]["instruction"])</pre>
+</div></section>
+
+<section id="notes"><div class="w">
+<h2>Before you train</h2>
+<div class="warn"><strong>Things to know about this data</strong>
+<ul>
+<li><b>The outputs are seeds, not finished simplifications.</b> They are assembled from the overview and extracted findings, and often keep the original clinical wording. Plan to rewrite or review them before treating them as ground truth.</li>
+<li><b>Many rows are duplicates.</b> 1,984 records repeat another record’s report text, leaving 1,817 unique reports. Some reports appear under more than one specialty. Deduplicate and split by report text to avoid train/test leakage.</li>
+<li><b>Record count differs from the README.</b> The README says 3,813 CSV records, while the files contain 3,801.</li>
+<li><b>Findings are sometimes missing.</b> 1,148 rows have no extracted findings section.</li>
+<li><b>Not for clinical use.</b> Outputs from models trained on this data should be checked by a qualified professional before reaching patients.</li>
+</ul></div>
+</div></section>
+
+<footer><div class="w">Medical Reports Simplification Dataset · CSV and JSONL formats · Documentation based on the bundled README and a profile of the files.</div></footer>
+
+<script>
+var BARS=[["Surgery",1006],["Orthopedic",294],["Cardiovascular / Pulmonary",275],["Radiology",247],["Consult – History & Phy.",219],["Gastroenterology",191],["Neurology",162],["Urology",139],["SOAP / Chart / Progress Notes",139],["General Medicine",136],["Obstetrics / Gynecology",128],["ENT – Otolaryngology",83],["27 other specialties",782]];
+var b=document.getElementById("bars");
+BARS.forEach(function(r){var d=document.createElement("div");d.className="bar";
+d.innerHTML="<span>"+r[0].replace(/&/g,"&amp;")+"</span><span><i style=\"width:"+(r[1]/1006*100)+"%\"></i></span><span>"+r[1].toLocaleString()+"</span>";b.appendChild(d)});
+
+var S=[
+{t:"Allergic Rhinitis",i:"subjective:, this 23-year-old white female presents with complaint of allergies. she used to have allergies when she lived in seattle but she thinks they are worse here. in the past, she has tried claritin, and zyrtec. both worked for short time but then seemed to lose effectiveness. she has used allegra also...,assessment:, allergic rhinitis.,plan:,1. she will try zyrtec instead of allegra again. another option will be to use loratadine...,2. samples of nasonex two sprays in each nostril given for three weeks. a prescription was written as well.",o:"Condition/Procedure: Allergic Rhinitis (Allergy / Immunology). Overview: A 23-year-old white female presents with complaint of allergies. Key Clinical Notes: , allergic rhinitis.,plan:,1. she will try zyrtec instead of allegra again. another option will be to use loratadine..."},
+{t:"Pulmonary Function Test",i:"observations: , the forced vital capacity is 2.84 l and forced expiratory volume in 1 second is 1.93 l. the ratio between the two is 68%. small improvement is noted in the airflows after bronchodilator therapy. lung volumes are increased with a residual volume of 196% of predicted and total lung capacity of 142% of predicted. single-breath diffusing capacity is slightly reduced.,impression: , mild-to-moderate obstructive ventilatory impairment. some improvement in the airflows after bronchodilator therapy.",o:"Condition/Procedure: Pulmonary Function Test (Cardiovascular / Pulmonary). Overview: Pulmonary function test. Mild-to-moderate obstructive ventilatory impairment. Some improvement in the airflows after bronchodilator therapy. Key Clinical Notes: , mild-to-moderate obstructive ventilatory impairment. some improvement in the airflows after bronchodilator therapy...."},
+{t:"MRI of Brain",i:"exam: , mri of the brain without contrast.,history: , daily headaches for 6 months in a 57-year-old.,technique: , noncontrast axial and sagittal images were acquired through the brain in varying degrees of fat and water weighting.,findings: , the brain is normal in signal intensity and morphology for age. there are no extraaxial fluid collections. there is no hydrocephalus/midline shift...,impression: , normal mri brain. specifically, no findings to explain the patient's headaches are identified.",o:"Condition/Procedure: MRI of Brain w/o Contrast. (Neurology). Overview: MRI of the brain without contrast to evaluate daily headaches for 6 months in a 57-year-old. Key Clinical Notes: , the brain is normal in signal intensity and morphology for age. there are no extraaxial fluid collections..."},
+{t:"Vasectomy",i:"diagnosis: desires vasectomy.,name of operation: , vasectomy.,anesthesia: general.,history: , patient, 37, desires a vasectomy.,procedure: , through a midline scrotal incision, the right vas was identified and separated from the surrounding tissues, clamped, transected, and tied off with a 4-0 chromic. no bleeding was identified...,he tolerated the procedure well. a sterile dressing was applied.",o:"Condition/Procedure: Vasectomy - 2 (Urology). Overview: Normal vasectomy Key Clinical Notes: , desires vasectomy.,name of operation: , vasectomy.,anesthesia: general.,history: , patient, 37, desires a vasectomy.,procedure: , through a midline scrotal incision..."}
+];
+var tabs=document.getElementById("tabs");
+function show(n){S.forEach(function(_,k){tabs.children[k].setAttribute("aria-selected",k===n)});
+document.getElementById("in").textContent=S[n].i;document.getElementById("out").textContent=S[n].o}
+S.forEach(function(s,k){var x=document.createElement("button");x.textContent=s.t;x.setAttribute("role","tab");x.onclick=function(){show(k)};tabs.appendChild(x)});
+show(0);
+</script>
+</body>
+</html>
